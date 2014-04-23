@@ -33,25 +33,27 @@ public class LongdoWordSuggester implements WordSuggester {
       Set<String> suggestWordSet = new TreeSet<String>(SUGGEST_WORD_SET_POLICY);
       String stmt;
 
-      try {
-         InputStream inputStream = new URL(getSuggestApiUrl(word)).openStream();
+      if (word.length() > 1) {
+         try {
+            InputStream inputStream = new URL(getSuggestApiUrl(word)).openStream();
 
-         // Longdo API Suggest word return the suggest words in JavaScript
-         // first statement. So let scanner handle content from website.
-         Scanner scanner = new Scanner(inputStream, ENCODING).useDelimiter(DELIMITER);
-         stmt = scanner.next();
+            // Longdo API Suggest word return the suggest words in JavaScript
+            // first statement. So let scanner handle content from website.
+            Scanner scanner = new Scanner(inputStream, ENCODING).useDelimiter(DELIMITER);
+            stmt = scanner.next();
 
-         // We have a suggest words list. Let's close connection!
-         scanner.close();
+            // We have a suggest words list. Let's close connection!
+            scanner.close();
 
-         // Next, we will get word from JSON array
-         Matcher matcher = Pattern.compile("\"w\": *\"([^\"]+?)\"").matcher(stmt);
+            // Next, we will get word from JSON array
+            Matcher matcher = Pattern.compile("\"w\": *\"([^\"]+?)\"").matcher(stmt);
 
-         while (matcher.find()) {
-            suggestWordSet.add(matcher.group(1));
+            while (matcher.find()) {
+               suggestWordSet.add(matcher.group(1));
+            }
+         } catch (IOException e) {
+            throw new RuntimeException(e);
          }
-      } catch (IOException e) {
-         throw new RuntimeException(e);
       }
 
       return suggestWordSet;
