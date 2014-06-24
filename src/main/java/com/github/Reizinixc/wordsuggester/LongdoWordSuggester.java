@@ -1,4 +1,4 @@
-package th.ac.ku.ndsrl.kunemata.api.wordsuggest.longdo;
+package com.github.Reizinixc.wordsuggester;
 
 import java.io.IOException;
 import java.io.InputStream;

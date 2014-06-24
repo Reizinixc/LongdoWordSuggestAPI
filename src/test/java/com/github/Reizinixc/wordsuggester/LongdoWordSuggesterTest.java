@@ -1,4 +1,4 @@
-package th.ac.ku.ndsrl.kunemata.api.wordsuggest.longdo;
+package com.github.Reizinixc.wordsuggester;
 
 import static org.junit.Assert.*;
 
